@@ -8,4 +8,5 @@ module.exports = function(app) {
     app.get('/sendgoods', require("../server/models/stockout"));
     app.get('/stock', require("../server/models/stock"));
     app.get('/invoice', require("../server/models/invoice"));
+    app.get('/getWebInfo', require("../server/models/getWebInfo"));
 };
