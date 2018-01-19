@@ -3,31 +3,39 @@
 /**
  * Module dependencies.
  */
-
+var path = require('path');
 var app = require('../app');
 var debug = require('debug')('express-example:server');
+var fs = require('fs');
 var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync(path.join(__dirname, '../keys/private.key'), 'utf8');
+var certificate = fs.readFileSync(path.join(__dirname, '../keys/certificate.crt'), 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '80');
-app.set('port', port);
+var httpsPort = 8080;
+//app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
-
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials,app);
 
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+httpServer.listen(port);
+httpsServer.listen(httpsPort);
+
 //server.on('error', onError);
 //server.on('listening', onListening);
 
